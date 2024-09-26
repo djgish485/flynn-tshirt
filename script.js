@@ -3,13 +3,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const header = document.querySelector('header');
     const colors = ['#ff4500', '#ffa500', '#ff6347', '#ff8c00', '#ff7f50'];
 
-    addToCartButton.addEventListener('click', () => {
-        addToCartButton.textContent = 'Added to Cart!';
-        addToCartButton.style.backgroundColor = '#4CAF50';
-        setTimeout(() => {
-            addToCartButton.textContent = 'Add to Cart';
-            addToCartButton.style.backgroundColor = '#ff4500';
-        }, 2000);
+    const stripe = Stripe('your_publishable_key_here');
+
+    addToCartButton.addEventListener('click', async () => {
+        addToCartButton.textContent = 'Processing...';
+        addToCartButton.disabled = true;
+
+        try {
+            const response = await fetch('/.netlify/functions/create-checkout-session', {
+                method: 'POST',
+            });
+            const session = await response.json();
+            const result = await stripe.redirectToCheckout({
+                sessionId: session.id,
+            });
+            if (result.error) {
+                console.error(result.error);
+                addToCartButton.textContent = 'Error. Try again';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            addToCartButton.textContent = 'Error. Try again';
+        }
+
+        addToCartButton.disabled = false;
     });
 
     // Create a spray paint effect on hover
