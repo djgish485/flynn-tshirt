@@ -9,7 +9,7 @@ exports.handler = async (event) => {
           price_data: {
             currency: 'usd',
             product_data: {
-              name: 'Flynn Paints Tee',
+              name: 'The Fabuleux Tee',
             },
             unit_amount: 3999,
           },
