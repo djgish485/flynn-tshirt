@@ -98,24 +98,22 @@ button {
     display: block;
     width: 100%;
     padding: 1rem;
-    background-color: #808080;
+    background-color: #ff4500;
     color: white;
     border: none;
     border-radius: 50px;
     font-size: 1.2rem;
     font-weight: bold;
-    cursor: not-allowed;
+    cursor: pointer;
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 button:hover {
-    background-color: #8a8a8a;
-}
-
-button:disabled {
-    opacity: 0.7;
+    background-color: #ffa500;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 69, 0, 0.4);
 }
 
 footer {
