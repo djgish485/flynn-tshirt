@@ -1,0 +1,10 @@
+{
+  "name": "flynn-paints-tee",
+  "version": "1.0.0",
+  "description": "Flynn Paints T-shirt e-commerce site",
+  "main": "index.html",
+  "dependencies": {
+    "stripe": "^8.191.0",
+    "node-fetch": "^2.6.1"
+  }
+}
