@@ -29,6 +29,7 @@ exports.handler = async (event) => {
     try {
       console.log('Attempting to create Printful order');
       console.log('Session data:', JSON.stringify(session));
+      console.log('Session metadata:', JSON.stringify(session.metadata));
         
       let shippingInfo;
       if (session.shipping) {
@@ -41,7 +42,7 @@ exports.handler = async (event) => {
 
       console.log('Shipping info:', JSON.stringify(shippingInfo));
 
-      const variantId = parseInt(process.env.PRINTFUL_VARIANT_ID, 10);
+      const variantId = parseInt(session.metadata.variantId, 10);
       console.log('Parsed Printful Variant ID:', variantId);
 
       const requestBody = {
@@ -55,7 +56,7 @@ exports.handler = async (event) => {
         },
         items: [
           {
-            sync_variant_id: 4550853270, // Use the sync_variant_id instead of variant_id
+            sync_variant_id: variantId,
             quantity: 1
           }
         ],
