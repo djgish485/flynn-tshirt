@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             "id": 361393952,
             "name": "TRUMP The Fabuleux ",
+            "image": "https://files.cdn.printful.com/files/5e9/5e9ea94118c202291aa73c62a5b4a7af_preview.png",
             "variants": [
                 { "id": 4550803016, "name": "TRUMP The Fabuleux  / S", "size": "S" },
                 { "id": 4550803018, "name": "TRUMP The Fabuleux  / M", "size": "M" },
@@ -27,19 +28,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     addToCartButton.addEventListener('click', () => {
         modal.style.display = 'block';
-        sizeOptions.innerHTML = `
-            <div class="product-preview">
-                <img src="${products[0].image}" alt="T-shirt preview" class="product-image">
-                <div class="size-buttons"></div>
-            </div>
-        `;
-        const sizeButtonsContainer = sizeOptions.querySelector('.size-buttons');
+        document.getElementById('product-image').src = products[0].image;
+        sizeOptions.innerHTML = '';
         products[0].variants.forEach(variant => {
             const button = document.createElement('button');
             button.textContent = variant.size;
             button.className = 'size-button';
             button.addEventListener('click', () => initiateCheckout(variant.id));
-            sizeButtonsContainer.appendChild(button);
+            sizeOptions.appendChild(button);
         });
     });
 
