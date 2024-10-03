@@ -29,10 +29,17 @@ exports.handler = async (event) => {
     try {
       console.log('Attempting to create Printful order');
       console.log('Session data:', JSON.stringify(session));
-          
-      if (!session.shipping || !session.shipping.address) {
+        
+      let shippingInfo;
+      if (session.shipping) {
+        shippingInfo = session.shipping;
+      } else if (session.customer_details) {
+        shippingInfo = session.customer_details;
+      } else {
         throw new Error('Shipping information is missing from the session');
       }
+
+      console.log('Shipping info:', JSON.stringify(shippingInfo));
 
       const response = await fetch(`${PRINTFUL_API_URL}/orders`, {
         method: 'POST',
@@ -42,12 +49,12 @@ exports.handler = async (event) => {
         },
         body: JSON.stringify({
           recipient: {
-            name: session.shipping.name || 'Customer',
-            address1: session.shipping.address.line1,
-            city: session.shipping.address.city,
-            state_code: session.shipping.address.state,
-            country_code: session.shipping.address.country,
-            zip: session.shipping.address.postal_code
+            name: shippingInfo.name || 'Customer',
+            address1: shippingInfo.address?.line1 || '',
+            city: shippingInfo.address?.city || '',
+            state_code: shippingInfo.address?.state || '',
+            country_code: shippingInfo.address?.country || '',
+            zip: shippingInfo.address?.postal_code || ''
           },
           items: [
             {
