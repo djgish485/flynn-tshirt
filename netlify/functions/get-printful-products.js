@@ -4,6 +4,7 @@ const PRINTFUL_API_URL = 'https://api.printful.com';
 
 exports.handler = async (event) => {
   try {
+    console.log('Fetching products from Printful');
     // Fetch all products
     const productsResponse = await fetch(`${PRINTFUL_API_URL}/store/products`, {
       headers: {
@@ -11,11 +12,14 @@ exports.handler = async (event) => {
       }
     });
 
+    const responseText = await productsResponse.text();
+    console.log('Printful API response:', responseText);
+
     if (!productsResponse.ok) {
-      throw new Error(`HTTP error! status: ${productsResponse.status}`);
+      throw new Error(`HTTP error! status: ${productsResponse.status}, body: ${responseText}`);
     }
 
-    const products = await productsResponse.json();
+    const products = JSON.parse(responseText);
 
     // Fetch variants for each product
     const productsWithVariants = await Promise.all(products.result.map(async (product) => {
