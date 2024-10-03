@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const header = document.querySelector('header');
     const colors = ['#ff4500', '#ffa500', '#ff6347', '#ff8c00', '#ff7f50'];
 
-    const stripe = Stripe('your_publishable_key_here');
+    const stripe = Stripe('pk_live_51Q3HsWEd5RY1Bcmth0Z3ns3RLBvQv1TJb80lnUcTjX1uT5Wo1UqQUzAZNq70XYmj9V2vUuCZsUvDYmjPEBVgSW8L003hdA4aqA');
 
     addToCartButton.addEventListener('click', async () => {
         addToCartButton.textContent = 'Processing...';
