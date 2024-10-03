@@ -41,6 +41,9 @@ exports.handler = async (event) => {
 
       console.log('Shipping info:', JSON.stringify(shippingInfo));
 
+      const variantId = parseInt(process.env.PRINTFUL_VARIANT_ID, 10);
+      console.log('Parsed Printful Variant ID:', variantId);
+
       const requestBody = {
         recipient: {
           name: shippingInfo.name || 'Customer',
@@ -52,7 +55,7 @@ exports.handler = async (event) => {
         },
         items: [
           {
-            variant_id: process.env.PRINTFUL_VARIANT_ID,
+            variant_id: variantId,
             quantity: 1
           }
         ],
