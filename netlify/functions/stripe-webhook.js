@@ -4,6 +4,7 @@ const fetch = require('node-fetch');
 const PRINTFUL_API_URL = 'https://api.printful.com';
 
 exports.handler = async (event) => {
+  console.log('stripe-webhook function called');
   const sig = event.headers['stripe-signature'];
   let stripeEvent;
 
@@ -17,10 +18,12 @@ exports.handler = async (event) => {
   }
 
   if (stripeEvent.type === 'checkout.session.completed') {
+    console.log('Checkout session completed');
     const session = stripeEvent.data.object;
 
     // Create order in Printful
     try {
+      console.log('Attempting to create Printful order');
       const response = await fetch(`${PRINTFUL_API_URL}/orders`, {
         method: 'POST',
         headers: {
