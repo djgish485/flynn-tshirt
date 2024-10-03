@@ -13,20 +13,22 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('/.netlify/functions/create-checkout-session', {
                 method: 'POST',
             });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             const session = await response.json();
             const result = await stripe.redirectToCheckout({
                 sessionId: session.id,
             });
             if (result.error) {
-                console.error(result.error);
-                addToCartButton.textContent = 'Error. Try again';
+                throw new Error(result.error.message);
             }
         } catch (error) {
             console.error('Error:', error);
             addToCartButton.textContent = 'Error. Try again';
+        } finally {
+            addToCartButton.disabled = false;
         }
-
-        addToCartButton.disabled = false;
     });
 
     // Create a spray paint effect on hover
