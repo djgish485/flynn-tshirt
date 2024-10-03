@@ -62,9 +62,6 @@ exports.handler = async (event) => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const order = await response.json();
-      console.log('Order created:', JSON.stringify(order));
-
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -74,6 +71,10 @@ exports.handler = async (event) => {
     } catch (error) {
       console.error('Error creating Printful order:', error);
       console.error('Error details:', error.response ? await error.response.text() : 'No response');
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: 'Failed to create Printful order' })
+      };
     }
   }
 
