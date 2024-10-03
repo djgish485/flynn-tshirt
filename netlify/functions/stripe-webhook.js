@@ -5,12 +5,16 @@ const PRINTFUL_API_URL = 'https://api.printful.com';
 
 exports.handler = async (event) => {
   console.log('stripe-webhook function called');
+  console.log('Event headers:', JSON.stringify(event.headers));
+  console.log('Event body:', event.body);
   const sig = event.headers['stripe-signature'];
   let stripeEvent;
 
   try {
     stripeEvent = stripe.webhooks.constructEvent(event.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
+    console.log('Stripe event constructed:', stripeEvent.type);
   } catch (err) {
+    console.error('Error constructing event:', err.message);
     return {
       statusCode: 400,
       body: `Webhook Error: ${err.message}`
@@ -53,9 +57,10 @@ exports.handler = async (event) => {
       }
 
       const order = await response.json();
-      console.log('Order created:', order);
+      console.log('Order created:', JSON.stringify(order));
     } catch (error) {
       console.error('Error creating Printful order:', error);
+      console.error('Error details:', error.response ? await error.response.text() : 'No response');
     }
   }
 
