@@ -6,7 +6,7 @@ exports.handler = async (event) => {
   try {
     console.log('Fetching products from Printful');
     // Fetch all products
-    const productsResponse = await fetch(`${PRINTFUL_API_URL}/store/products`, {
+    const productsResponse = await fetch(`${PRINTFUL_API_URL}/store/products?store_id=${process.env.PRINTFUL_STORE_ID}`, {
       headers: {
         'Authorization': `Bearer ${process.env.PRINTFUL_API_KEY}`
       }
@@ -23,7 +23,7 @@ exports.handler = async (event) => {
 
     // Fetch variants for each product
     const productsWithVariants = await Promise.all(products.result.map(async (product) => {
-      const variantsResponse = await fetch(`${PRINTFUL_API_URL}/store/products/${product.id}`, {
+      const variantsResponse = await fetch(`${PRINTFUL_API_URL}/store/products/${product.id}?store_id=${process.env.PRINTFUL_STORE_ID}`, {
         headers: {
           'Authorization': `Bearer ${process.env.PRINTFUL_API_KEY}`
         }
