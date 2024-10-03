@@ -41,39 +41,42 @@ exports.handler = async (event) => {
 
       console.log('Shipping info:', JSON.stringify(shippingInfo));
 
+      const requestBody = {
+        recipient: {
+          name: shippingInfo.name || 'Customer',
+          address1: shippingInfo.address?.line1 || '',
+          city: shippingInfo.address?.city || '',
+          state_code: shippingInfo.address?.state || '',
+          country_code: shippingInfo.address?.country || '',
+          zip: shippingInfo.address?.postal_code || ''
+        },
+        items: [
+          {
+            variant_id: process.env.PRINTFUL_VARIANT_ID,
+            quantity: 1
+          }
+        ]
+      };
+
+      console.log('Printful request body:', JSON.stringify(requestBody));
+
       const response = await fetch(`${PRINTFUL_API_URL}/orders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${process.env.PRINTFUL_API_KEY}`
         },
-        body: JSON.stringify({
-          recipient: {
-            name: shippingInfo.name || 'Customer',
-            address1: shippingInfo.address?.line1 || '',
-            city: shippingInfo.address?.city || '',
-            state_code: shippingInfo.address?.state || '',
-            country_code: shippingInfo.address?.country || '',
-            zip: shippingInfo.address?.postal_code || ''
-          },
-          items: [
-            {
-              variant_id: process.env.PRINTFUL_VARIANT_ID,
-              quantity: 1
-            }
-          ]
-        })
+        body: JSON.stringify(requestBody)
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      const responseText = await response.text();
+      console.log('Printful response:', responseText);
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`HTTP error! status: ${response.status}, body: ${responseText}`);
       }
 
-      const order = await response.json();
+      const order = JSON.parse(responseText);
       console.log('Order created:', JSON.stringify(order));
     } catch (error) {
       console.error('Error creating Printful order:', error);
