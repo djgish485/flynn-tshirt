@@ -37,7 +37,7 @@ exports.handler = async (event) => {
             product_data: {
               name: 'The Fabuleux Tee',
             },
-            unit_amount: 3999,
+            unit_amount: 500,
           },
           quantity: 1,
         },
