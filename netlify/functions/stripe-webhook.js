@@ -55,7 +55,7 @@ exports.handler = async (event) => {
         },
         items: [
           {
-            variant_id: variantId,
+            sync_variant_id: 4550853270, // Use the sync_variant_id instead of variant_id
             quantity: 1
           }
         ],
