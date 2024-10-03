@@ -27,13 +27,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     addToCartButton.addEventListener('click', () => {
         modal.style.display = 'block';
-        sizeOptions.innerHTML = '';
+        sizeOptions.innerHTML = `
+            <div class="product-preview">
+                <img src="${products[0].image}" alt="T-shirt preview" class="product-image">
+                <div class="size-buttons"></div>
+            </div>
+        `;
+        const sizeButtonsContainer = sizeOptions.querySelector('.size-buttons');
         products[0].variants.forEach(variant => {
             const button = document.createElement('button');
             button.textContent = variant.size;
             button.className = 'size-button';
             button.addEventListener('click', () => initiateCheckout(variant.id));
-            sizeOptions.appendChild(button);
+            sizeButtonsContainer.appendChild(button);
         });
     });
 

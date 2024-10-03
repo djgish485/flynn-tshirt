@@ -155,9 +155,28 @@ footer {
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
-    max-width: 500px;
+    max-width: 600px;
     border-radius: 10px;
     color: #333;
+}
+
+.product-preview {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.product-image {
+    width: 50%;
+    max-width: 250px;
+    height: auto;
+    margin-right: 20px;
+}
+
+.size-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .close {
