@@ -17,8 +17,8 @@ exports.handler = async (event) => {
         },
       ],
       mode: 'payment',
-      success_url: 'https://your-site-url.com/success',
-      cancel_url: 'https://your-site-url.com',
+      success_url: 'https://thefabuleux.com?success=true',
+      cancel_url: 'https://thefabuleux.com',
     });
 
     return {
