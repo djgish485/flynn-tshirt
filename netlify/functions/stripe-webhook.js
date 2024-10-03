@@ -55,7 +55,8 @@ exports.handler = async (event) => {
             variant_id: process.env.PRINTFUL_VARIANT_ID,
             quantity: 1
           }
-        ]
+        ],
+        store_id: process.env.PRINTFUL_STORE_ID
       };
 
       console.log('Printful request body:', JSON.stringify(requestBody));
